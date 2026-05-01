@@ -13,7 +13,7 @@
 
   ---
   
-  [Overview](#-overview) • [Features](#-key-features) • [Architecture](#-system-architecture) • [Quick Start](#-quick-start) • [Structure](#-project-structure) • [Phase Progress](#-phase-by-phase-implementation) • [AI Tools](#-ai-research-assistant) • [Contributing](#-contributing)
+  [Overview](#-overview) • [Features](#-key-features) • [Architecture](#-system-architecture) • [Quick Start](#-quick-start) • [Structure](#-project-structure) • [Phase Progress](#-phase-by-phase-implementation) • [Contributing](#-contributing)
 </div>
 
 ## 📖 Overview
