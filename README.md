@@ -125,24 +125,6 @@ ros2 launch swarm_control mars_swarm.launch.py
 
 ---
 
-## 🤖 AI Research Assistant & Tools
-
-This project includes custom AI tools to assist in development and maintenance:
-
-### Research Rabbit
-AI-powered diagnostics and analysis for your ROS 2 stack.
-```bash
-python3 scripts/research_rabbit.py diagnostics
-```
-
-### Bug Fixer
-Automated detection and resolution of common ROS 2 and Python pitfalls.
-```bash
-python3 scripts/bug_fixer.py . --fix
-```
-
----
-
 ## 📈 Performance Benchmarks
 
 | Configuration | RAM Usage | Performance | Latency |
