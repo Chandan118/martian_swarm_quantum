@@ -164,6 +164,17 @@ Contributions are welcome! Please follow these steps:
 
 ---
 
+## 👥 Contributors
+
+We would like to thank our co-authors for their invaluable contributions to this research:
+
+- **Txinyan** ([@Txinyan](https://github.com/Txinyan))
+- **hhtbbc** ([@hhtbbc](https://github.com/hhtbbc))
+- **orange0131** ([@orange0131](https://github.com/orange0131))
+- **Hailan5** ([@Hailan5](https://github.com/Hailan5))
+
+---
+
 ## 📜 License
 
 Distributed under the **MIT License**. See `LICENSE` for more information.
