@@ -170,7 +170,4 @@ Distributed under the **MIT License**. See `LICENSE` for more information.
 
 ---
 
-<div align="center">
-  <b>Built with ❤️ by the Martian Swarm Quantum Team</b><br>
-  <i>Pushing the boundaries of autonomous exploration.</i>
-</div>
+
