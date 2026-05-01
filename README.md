@@ -164,19 +164,6 @@ Contributions are welcome! Please follow these steps:
 
 ---
 
-## 👥 Research Team & Co-Authors
-
-This project is the result of a collaborative research effort between:
-
-- **Chandan Sheikder** ([@Chandan118](https://github.com/Chandan118)) - Lead Researcher
-- **Li Tairan** ([@LTT-BIT](https://github.com/LTT-BIT)) - Co-Author
-- **Txinyan** ([@Txinyan](https://github.com/Txinyan)) - Co-Author
-- **Haotong He** ([@hhtbbc](https://github.com/hhtbbc)) - Co-Author
-- **shicheng fan** ([@orange0131](https://github.com/orange0131)) - Co-Author
-- **He xiaohai** ([@Hailan5](https://github.com/Hailan5)) - Co-Author
-
----
-
 ## 📜 License
 
 Distributed under the **MIT License**. See `LICENSE` for more information.
