@@ -1,0 +1,123 @@
+# Martian Swarm Quantum - Docker Environment
+# Complete multi-container setup for the entire simulation system
+
+services:
+  # ROS 2 Main Container
+  ros2_swarm:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.ros2
+    container_name: martian_ros2_swarm
+    hostname: ros2-swarm
+    environment:
+      - ROS_DOMAIN_ID=42
+      - QT_X11_NO_MITSHM=1
+      - DISPLAY=${DISPLAY}
+    volumes:
+      - ../ros2_ws:/workspace/ros2_ws:rw
+      - ../gazebo_worlds:/workspace/gazebo_worlds:ro
+      - ../matlab_scripts:/workspace/matlab_scripts:ro
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+    networks:
+      - swarm_network
+    depends_on:
+      - quantum_sim
+    command: >
+      bash -c "source /opt/ros/humble/setup.bash &&
+               source /workspace/ros2_ws/install/setup.bash &&
+               ros2 launch swarm_control mars_swarm.launch.py"
+    privileged: true
+    devices:
+      - /dev/dri:/dev/dri
+    shm_size: '2gb'
+
+  # Gazebo Simulation Container
+  gazebo_sim:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.gazebo
+    container_name: martian_gazebo
+    hostname: gazebo-sim
+    environment:
+      - DISPLAY=${DISPLAY}
+      - GAZEBO_MODEL_PATH=/workspace/gazebo_worlds/models
+      - GAZEBO_RESOURCE_PATH=/workspace/gazebo_worlds/worlds
+      - GAZEBO_RENDERER=ogre2
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ../gazebo_worlds:/workspace/gazebo_worlds:ro
+      - ../gazebo_plugins:/workspace/gazebo_plugins:rw
+    networks:
+      - swarm_network
+    command: >
+      bash -c "gz sim /workspace/gazebo_worlds/worlds/martian_lava_tube.world"
+    privileged: true
+    devices:
+      - /dev/dri:/dev/dri
+
+  # Chaos Testing Container
+  chaos_monkey:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.ros2
+    container_name: martian_chaos
+    hostname: chaos-monkey
+    environment:
+      - ROS_DOMAIN_ID=42
+    volumes:
+      - ../ros2_ws:/workspace/ros2_ws:ro
+    networks:
+      - swarm_network
+    command: >
+      bash -c "source /opt/ros/humble/setup.bash &&
+               source /workspace/ros2_ws/install/setup.bash &&
+               ros2 run chaos_monkey chaos_node"
+    depends_on:
+      - ros2_swarm
+
+  # Quantum Map Merge Container
+  quantum_sim:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.quantum
+    container_name: martian_quantum
+    hostname: quantum-sim
+    environment:
+      - GOOGLE_QUANTUM_API_KEY=${GOOGLE_QUANTUM_API_KEY:-}
+    volumes:
+      - ../ros2_ws:/workspace/ros2_ws:ro
+    networks:
+      - swarm_network
+    command: >
+      bash -c "source /opt/ros/humble/setup.bash &&
+               source /workspace/ros2_ws/install/setup.bash &&
+               ros2 run quantum_map_merge quantum_node"
+    depends_on:
+      - ros2_swarm
+
+  # SNN Controller Container
+  snn_controller:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.ros2
+    container_name: martian_snn
+    hostname: snn-controller
+    environment:
+      - ROS_DOMAIN_ID=42
+    volumes:
+      - ../ros2_ws:/workspace/ros2_ws:ro
+    networks:
+      - swarm_network
+    command: >
+      bash -c "source /opt/ros/humble/setup.bash &&
+               source /workspace/ros2_ws/install/setup.bash &&
+               ros2 run snn_controller snn_node"
+    depends_on:
+      - ros2_swarm
+
+networks:
+  swarm_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16

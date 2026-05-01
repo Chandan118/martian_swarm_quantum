@@ -1,0 +1,453 @@
+<?xml version="1.0" ?>
+<sdf version="1.9">
+  <!-- Martian Lava Tube/Canyon World for Swarm Exploration -->
+  <world name="martian_lava_tube">
+    
+    <!-- Physics Configuration -->
+    <physics name="mars_physics" type="ode">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+      <gravity>3.721 0 0</gravity>  <!-- Mars gravity -->
+    </physics>
+
+    <!-- Scene Configuration for Dust Storm Visibility -->
+    <scene>
+      <ambient>0.6 0.5 0.4 1.0</ambient>
+      <background>0.9 0.6 0.4 1.0</background>  <!-- Martian sky -->
+      <shadows>true</shadows>
+      <grid>false</grid>
+      <origin_visual>false</origin_visual>
+      
+      <!-- Fog for dust simulation -->
+      <fog>
+        <type>exponential</type>
+        <color>0.7 0.5 0.3 1.0</color>
+        <density>0.0</density>
+        <near>10</near>
+        <far>500</far>
+      </fog>
+    </scene>
+
+    <!-- Light Configuration - Mars Sun -->
+    <light type="directional" name="mars_sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 100 0 0 0</pose>
+      <diffuse>1.0 0.9 0.7 1</diffuse>
+      <specular>0.8 0.7 0.5 1</specular>
+      <attenuation>0 0 0 1</attenuation>
+      <direction>0.3 -0.5 -0.8</direction>
+      <intensity>0.8</intensity>
+    </light>
+
+    <!-- Mars Atmosphere Plugin -->
+    <plugin name="MarsAtmosphere" filename="libMarsAtmosphere.so">
+      <dust_density>0.0</dust_density>
+      <visibility_range>1000</visibility_range>
+      <wind_speed>5.0</wind_speed>
+      <pressure>600 Pa</pressure>
+    </plugin>
+
+    <!-- Ground Plane - Mars Surface -->
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="ground_link">
+        <pose>0 0 -0.1 0 0 0</pose>
+        <collision name="ground_collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>500 500</size>
+            </plane>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>0.8</mu>
+                <mu2>0.8</mu2>
+              </ode>
+            </friction>
+          </surface>
+        </collision>
+        <visual name="ground_visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>500 500</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.6 0.4 0.3 1</ambient>
+            <diffuse>0.7 0.5 0.35 1</diffuse>
+            <specular>0.1 0.1 0.1 1</specular>
+            <shininess>10</shininess>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Canyon/Lava Tube Structure -->
+    <model name="lava_tube_canyon">
+      <static>true</static>
+      <pose>0 0 0 0 0 0</pose>
+      
+      <!-- Canyon Walls -->
+      <link name="wall_left">
+        <pose>-15 0 5 0 0 0.3</pose>
+        <collision name="wall_left_coll">
+          <geometry>
+            <box>
+              <size>2 100 15</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="wall_left_vis">
+          <geometry>
+            <box>
+              <size>2 100 15</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.4 0.25 0.2 1</ambient>
+            <diffuse>0.5 0.3 0.25 1</diffuse>
+            <specular>0.05 0.05 0.05 1</specular>
+          </material>
+        </visual>
+        <!-- Rocky texture details -->
+        <visual name="wall_left_detail1">
+          <pose>-1.2 10 3 0.2 0.1 0</pose>
+          <geometry>
+            <box>
+              <size>0.5 3 2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.35 0.2 0.15 1</ambient>
+            <diffuse>0.45 0.28 0.2 1</diffuse>
+          </material>
+        </visual>
+      </link>
+
+      <link name="wall_right">
+        <pose>15 0 5 0 0 -0.3</pose>
+        <collision name="wall_right_coll">
+          <geometry>
+            <box>
+              <size>2 100 15</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="wall_right_vis">
+          <geometry>
+            <box>
+              <size>2 100 15</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.4 0.25 0.2 1</ambient>
+            <diffuse>0.5 0.3 0.25 1</diffuse>
+            <specular>0.05 0.05 0.05 1</specular>
+          </material>
+        </visual>
+      </link>
+
+      <!-- Lava Tube Ceiling Sections -->
+      <link name="ceiling_section1">
+        <pose>0 -30 12 0 0 0</pose>
+        <collision name="ceiling_coll1">
+          <geometry>
+            <box>
+              <size>28 10 3</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="ceiling_vis1">
+          <geometry>
+            <box>
+              <size>28 10 3</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3 0.2 0.15 1</ambient>
+            <diffuse>0.4 0.25 0.18 1</diffuse>
+          </material>
+        </visual>
+      </link>
+
+      <link name="ceiling_section2">
+        <pose>0 30 14 0 0 0</pose>
+        <collision name="ceiling_coll2">
+          <geometry>
+            <box>
+              <size>25 15 4</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="ceiling_vis2">
+          <geometry>
+            <box>
+              <size>25 15 4</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3 0.2 0.15 1</ambient>
+            <diffuse>0.4 0.25 0.18 1</diffuse>
+          </material>
+        </visual>
+      </link>
+
+      <!-- Rock Formations (Obstacles) -->
+      <link name="rock_cluster_1">
+        <pose>-8 5 1.5 0.1 0.2 0.5</pose>
+        <collision>
+          <geometry>
+            <sphere>
+              <radius>2.5</radius>
+            </sphere>
+          </geometry>
+        </collision>
+        <visual>
+          <geometry>
+            <sphere>
+              <radius>2.5</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.45 0.3 0.2 1</ambient>
+            <diffuse>0.55 0.38 0.25 1</diffuse>
+          </material>
+        </visual>
+      </link>
+
+      <link name="rock_cluster_2">
+        <pose>10 -15 2 0.3 0 0.2</pose>
+        <collision>
+          <geometry>
+            <sphere>
+              <radius>3</radius>
+            </sphere>
+          </geometry>
+        </collision>
+        <visual>
+          <geometry>
+            <sphere>
+              <radius>3</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.45 0.3 0.2 1</ambient>
+            <diffuse>0.55 0.38 0.25 1</diffuse>
+          </material>
+        </visual>
+      </link>
+
+      <link name="rock_formation_3">
+        <pose>-5 -25 2.5 0 0.5 0.3</pose>
+        <collision>
+          <geometry>
+            <cylinder>
+              <radius>1.5</radius>
+              <length>5</length>
+            </cylinder>
+          </geometry>
+        </collision>
+        <visual>
+          <geometry>
+            <cylinder>
+              <radius>1.5</radius>
+              <length>5</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.4 0.28 0.18 1</ambient>
+            <diffuse>0.5 0.35 0.22 1</diffuse>
+          </material>
+        </visual>
+      </link>
+
+      <!-- Boulder Field -->
+      <link name="boulder_1">
+        <pose>-3 15 0.8 0.1 0.2 0.3</pose>
+        <collision>
+          <geometry>
+            <sphere>
+              <radius>0.8</radius>
+            </sphere>
+          </geometry>
+        </collision>
+        <visual>
+          <geometry>
+            <sphere>
+              <radius>0.8</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.5 0.35 0.25 1</ambient>
+            <diffuse>0.6 0.42 0.3 1</diffuse>
+          </material>
+        </visual>
+      </link>
+
+      <link name="boulder_2">
+        <pose>5 20 0.6 0.2 0.1 0.7</pose>
+        <collision>
+          <geometry>
+            <sphere>
+              <radius>0.6</radius>
+            </sphere>
+          </geometry>
+        </collision>
+        <visual>
+          <geometry>
+            <sphere>
+              <radius>0.6</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.5 0.35 0.25 1</ambient>
+            <diffuse>0.6 0.42 0.3 1</diffuse>
+          </material>
+        </visual>
+      </link>
+
+      <link name="boulder_3">
+        <pose>-10 -10 0.5 0 0.3 0.1</pose>
+        <collision>
+          <geometry>
+            <sphere>
+              <radius>0.5</radius>
+            </sphere>
+          </geometry>
+        </collision>
+        <visual>
+          <geometry>
+            <sphere>
+              <radius>0.5</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.5 0.35 0.25 1</ambient>
+            <diffuse>0.6 0.42 0.3 1</diffuse>
+          </material>
+        </visual>
+      </link>
+
+      <link name="boulder_4">
+        <pose>8 8 0.7 0.3 0 0.5</pose>
+        <collision>
+          <geometry>
+            <sphere>
+              <radius>0.7</radius>
+            </sphere>
+          </geometry>
+        </collision>
+        <visual>
+          <geometry>
+            <sphere>
+              <radius>0.7</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.5 0.35 0.25 1</ambient>
+            <diffuse>0.6 0.42 0.3 1</diffuse>
+          </material>
+        </visual>
+      </link>
+
+      <!-- Narrow Passage Points -->
+      <link name="narrow_passage_left">
+        <pose>-12 0 3 0 0 0.4</pose>
+        <collision>
+          <geometry>
+            <box>
+              <size>1.5 8 8</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual>
+          <geometry>
+            <box>
+              <size>1.5 8 8</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.35 0.22 0.15 1</ambient>
+            <diffuse>0.45 0.28 0.18 1</diffuse>
+          </material>
+        </visual>
+      </link>
+
+      <link name="narrow_passage_right">
+        <pose>12 0 4 0 0 -0.4</pose>
+        <collision>
+          <geometry>
+            <box>
+              <size>1.5 10 10</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual>
+          <geometry>
+            <box>
+              <size>1.5 10 10</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.35 0.22 0.15 1</ambient>
+            <diffuse>0.45 0.28 0.18 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Dust Particle System for Storm Simulation -->
+    <model name="dust_system">
+      <static>true</static>
+      <link name="dust_link">
+        <!-- Dust particles will be controlled via plugin -->
+      </link>
+    </model>
+
+    <!-- Rover Spawn Markers (invisible) -->
+    <model name="spawn_point_1">
+      <static>true</static>
+      <pose>-10 -35 0 0 0 1.57</pose>
+    </model>
+    <model name="spawn_point_2">
+      <static>true</static>
+      <pose>0 -35 0 0 0 1.57</pose>
+    </model>
+    <model name="spawn_point_3">
+      <static>true</static>
+      <pose>10 -35 0 0 0 1.57</pose>
+    </model>
+    <model name="spawn_point_4">
+      <static>true</static>
+      <pose>-5 -35 0 0 0 1.57</pose>
+    </model>
+    <model name="spawn_point_5">
+      <static>true</static>
+      <pose>5 -35 0 0 0 1.57</pose>
+    </model>
+    <model name="spawn_point_6">
+      <static>true</static>
+      <pose>-10 -35 0 0 0 1.57</pose>
+    </model>
+    <model name="spawn_point_7">
+      <static>true</static>
+      <pose>0 -35 0 0 0 1.57</pose>
+    </model>
+    <model name="spawn_point_8">
+      <static>true</static>
+      <pose>10 -35 0 0 0 1.57</pose>
+    </model>
+
+    <!-- Wind Simulation Plugin -->
+    <plugin name="MarsWind" filename="libMarsWind.so">
+      <update_interval>100</update_interval>
+      <wind_velocity>3.0 1.0 0.5</wind_velocity>
+      <gustiness>0.3</gustiness>
+    </plugin>
+
+  </world>
+</sdf>

@@ -1,0 +1,29 @@
+# Quantum AI Container for Map Merging
+FROM python:3.11-slim
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies for quantum computing
+RUN pip3 install --no-cache-dir \
+    numpy \
+    scipy \
+    pyqubo \
+    dwave-neal \
+    dimod \
+    openvino \
+    google-cloud-aiplatform
+
+# Create workspace
+WORKDIR /workspace
+
+# Copy quantum module
+COPY ros2_ws/src/quantum_map_merge /workspace/quantum_map_merge
+
+# Environment variables for quantum computing
+ENV PYTHONUNBUFFERED=1
+
+CMD ["python3", "-m", "quantum_map_merge.quantum_node"]

@@ -1,0 +1,30 @@
+# Gazebo Fortress Container for Martian Lava Tube Simulation
+FROM osrf/gazebo:garden
+
+# Install ROS 2 dependencies for bridging
+RUN apt-get update && apt-get install -y \
+    python3-pip \
+    ros-humble-ros-gzsim \
+    ros-humble-ros-gz-bridge \
+    ros-humble-geometry2 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Python dependencies
+RUN pip3 install --no-cache-dir \
+    numpy \
+    scipy \
+    pyyaml
+
+# Create directories
+RUN mkdir -p /workspace/gazebo_worlds/models
+RUN mkdir -p /workspace/gazebo_worlds/worlds
+RUN mkdir -p /workspace/gazebo_plugins
+
+# Environment
+ENV GAZEBO_MODEL_PATH=/workspace/gazebo_worlds/models
+ENV GAZEBO_RESOURCE_PATH=/workspace/gazebo_worlds/worlds
+ENV GAZEBO_PLUGIN_PATH=/workspace/gazebo_plugins
+
+WORKDIR /workspace
+
+CMD ["gz", "sim"]
