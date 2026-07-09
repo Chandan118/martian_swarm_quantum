@@ -4,6 +4,9 @@
   # 🔴 Martian Swarm Quantum
   
   **Autonomous Swarm Exploration of Martian Environments with Neuromorphic Computing and Quantum Map Recovery**
+  
+  > 📖 **Read the paper:** [Hybrid Neuromorphic Edge Computing and Quantum Cloud Optimization for Martian Swarm Robot Survival and Map Recovery](https://www.mdpi.com/3042-7576/1/3/11)  
+  > 🔗 **DOI:** [https://www.mdpi.com/3042-7576/1/3/11](https://www.mdpi.com/3042-7576/1/3/11)
 
   [![CI Status](https://github.com/Chandan118/martian_swarm_quantum/actions/workflows/ci.yml/badge.svg)](https://github.com/Chandan118/martian_swarm_quantum/actions)
   [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -143,6 +146,25 @@ Contributions are welcome! Please follow these steps:
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`).
 4. Push to the Branch (`git push origin feature/AmazingFeature`).
 5. Open a Pull Request.
+
+---
+
+## 📖 Citation
+
+If you use this work in your research, please cite:
+
+```bibtex
+@article{sheikder2026martian,
+  author    = {Chandan Sheikder and others},
+  title     = {Hybrid Neuromorphic Edge Computing and Quantum Cloud Optimization for Martian Swarm Robot Survival and Map Recovery},
+  journal   = {Astronautics},
+  volume    = {1},
+  number    = {3},
+  pages     = {11},
+  year      = {2026},
+  url       = {https://www.mdpi.com/3042-7576/1/3/11}
+}
+```
 
 ---
 
